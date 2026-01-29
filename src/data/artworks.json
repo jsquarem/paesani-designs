@@ -1,0 +1,92 @@
+[
+  {
+    "id": "treehouse-spiral-01",
+    "name": "Spiral Treehouse",
+    "price": "Inquire",
+    "description": "A haunted cobalt climb into a moonlit house perched above the trees.",
+    "imageUrl": "/piece-images-local/1946446092332193245.jpg",
+    "etsyUrl": "https://www.etsy.com/",
+    "collection": "current",
+    "tags": ["treehouse", "night", "cobalt"]
+  },
+  {
+    "id": "treehouse-tide-02",
+    "name": "Tide Treehouse",
+    "price": "Inquire",
+    "description": "Candy-bright cabins and a lavender slide diving into deep blue water.",
+    "imageUrl": "/piece-images-local/6329990863981653730.jpg",
+    "etsyUrl": "https://www.etsy.com/",
+    "collection": "current",
+    "tags": ["treehouse", "ocean", "playful"]
+  },
+  {
+    "id": "mushroom-burger-03",
+    "name": "Alien Burger Shroom",
+    "price": "Inquire",
+    "description": "A surreal mushroom house drifting on a cosmic night with neon accents.",
+    "imageUrl": "/piece-images-local/7852669106826997284.jpg",
+    "etsyUrl": "https://www.etsy.com/",
+    "collection": "current",
+    "tags": ["mushroom house", "surreal", "neon"]
+  },
+  {
+    "id": "brazilian-portrait-01",
+    "name": "Brazilian Portrait No. 1",
+    "price": "Inquire",
+    "description": "Abstract portrait study with warm earth tones and rhythmic geometry.",
+    "imageUrl": "/piece-images-local/1368412109426258770.jpg",
+    "etsyUrl": "https://www.etsy.com/",
+    "collection": "portraits",
+    "tags": ["portrait", "abstract", "brazil"]
+  },
+  {
+    "id": "brazilian-portrait-02",
+    "name": "Brazilian Portrait No. 2",
+    "price": "Inquire",
+    "description": "Vivid contrasts and elongated forms that sing with movement.",
+    "imageUrl": "/piece-images-local/2946715793410608064.jpg",
+    "etsyUrl": "https://www.etsy.com/",
+    "collection": "portraits",
+    "tags": ["portrait", "color", "brazil"]
+  },
+  {
+    "id": "brazilian-portrait-03",
+    "name": "Brazilian Portrait No. 3",
+    "price": "Inquire",
+    "description": "Soft gradients with celebratory tones and warm highlights.",
+    "imageUrl": "/piece-images-local/5177783163488608419.jpg",
+    "etsyUrl": "https://www.etsy.com/",
+    "collection": "portraits",
+    "tags": ["portrait", "warm", "brazil"]
+  },
+  {
+    "id": "brazilian-portrait-04",
+    "name": "Brazilian Portrait No. 4",
+    "price": "Inquire",
+    "description": "A playful palette and elongated silhouettes with poetic calm.",
+    "imageUrl": "/piece-images-local/7467309891487499420.jpg",
+    "etsyUrl": "https://www.etsy.com/",
+    "collection": "portraits",
+    "tags": ["portrait", "pastel", "brazil"]
+  },
+  {
+    "id": "brazilian-portrait-05",
+    "name": "Brazilian Portrait No. 5",
+    "price": "Inquire",
+    "description": "Graphic waves and bold contrast, anchored by serene form.",
+    "imageUrl": "/piece-images-local/7468444245008360073.jpg",
+    "etsyUrl": "https://www.etsy.com/",
+    "collection": "portraits",
+    "tags": ["portrait", "graphic", "brazil"]
+  },
+  {
+    "id": "brazilian-portrait-06",
+    "name": "Brazilian Portrait No. 6",
+    "price": "Inquire",
+    "description": "Festive rhythm and flowing movement in saturated color.",
+    "imageUrl": "/piece-images-local/8785993303043393641.jpg",
+    "etsyUrl": "https://www.etsy.com/",
+    "collection": "portraits",
+    "tags": ["portrait", "rhythm", "brazil"]
+  }
+]
