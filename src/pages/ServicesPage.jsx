@@ -1,4 +1,17 @@
+import { useEffect, useRef } from 'react'
+
 function ServicesPage() {
+  const mobileAdvanceRef = useRef(null)
+
+  useEffect(() => {
+    const sentinel = mobileAdvanceRef.current
+    if (!sentinel) return undefined
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    if (!isMobile) return undefined
+    const observer = new IntersectionObserver(() => {}, { threshold: 0.6 })
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [])
   return (
     <section className="section" id="services">
       <div className="section__head">
@@ -86,6 +99,7 @@ function ServicesPage() {
           />
         ))}
       </div>
+      <div className="scroll-sentinel" ref={mobileAdvanceRef} aria-hidden="true" />
     </section>
   )
 }

@@ -1,4 +1,29 @@
+import { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 function AboutPage() {
+  const navigate = useNavigate()
+  const mobileAdvanceRef = useRef(null)
+
+  useEffect(() => {
+    const sentinel = mobileAdvanceRef.current
+    if (!sentinel) return undefined
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    if (!isMobile) return undefined
+    let triggered = false
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !triggered) {
+          triggered = true
+          navigate('/services')
+        }
+      },
+      { threshold: 0.6 },
+    )
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [navigate])
+
   return (
     <section className="section about" id="about">
       <div className="section__head">
@@ -44,6 +69,7 @@ function AboutPage() {
           </p>
         </div>
       </div>
+      <div className="scroll-sentinel" ref={mobileAdvanceRef} aria-hidden="true" />
     </section>
   )
 }
