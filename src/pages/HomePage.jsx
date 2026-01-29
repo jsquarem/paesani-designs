@@ -1,35 +1,14 @@
-import { useEffect, useMemo, useRef } from 'react'
-import { Link, useNavigate, useOutletContext } from 'react-router-dom'
+import { useMemo } from 'react'
+import { Link, useOutletContext } from 'react-router-dom'
 import artworks from '../data/artworks.json'
 
 function HomePage() {
   const { theme, setTheme } = useOutletContext()
-  const navigate = useNavigate()
-  const mobileAdvanceRef = useRef(null)
   const currentCollection = useMemo(
     () => artworks.filter((art) => art.current),
     [],
   )
   const heroArtworks = currentCollection.slice(0, 3)
-
-  useEffect(() => {
-    const sentinel = mobileAdvanceRef.current
-    if (!sentinel) return undefined
-    const isMobile = window.matchMedia('(max-width: 768px)').matches
-    if (!isMobile) return undefined
-    let triggered = false
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !triggered) {
-          triggered = true
-          navigate('/collections')
-        }
-      },
-      { threshold: 0.6 },
-    )
-    observer.observe(sentinel)
-    return () => observer.disconnect()
-  }, [navigate])
 
   return (
     <>
@@ -160,8 +139,6 @@ function HomePage() {
           ))}
         </div>
       </section>
-
-      <div className="scroll-sentinel" ref={mobileAdvanceRef} aria-hidden="true" />
     </>
   )
 }

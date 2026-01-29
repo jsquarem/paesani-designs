@@ -1,33 +1,12 @@
-import { useEffect, useMemo, useRef } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useMemo } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import artworks from '../data/artworks.json'
 import { buildCollections } from '../utils/collectionUtils.js'
 
 function CollectionDetailPage() {
   const { collectionSlug } = useParams()
-  const navigate = useNavigate()
-  const mobileAdvanceRef = useRef(null)
   const collections = useMemo(() => buildCollections(artworks), [])
   const collection = collections.find((item) => item.slug === collectionSlug)
-
-  useEffect(() => {
-    const sentinel = mobileAdvanceRef.current
-    if (!sentinel) return undefined
-    const isMobile = window.matchMedia('(max-width: 768px)').matches
-    if (!isMobile) return undefined
-    let triggered = false
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !triggered) {
-          triggered = true
-          navigate('/about')
-        }
-      },
-      { threshold: 0.6 },
-    )
-    observer.observe(sentinel)
-    return () => observer.disconnect()
-  }, [navigate])
 
   if (!collection) {
     return (
@@ -99,8 +78,6 @@ function CollectionDetailPage() {
           </article>
         ))}
       </div>
-
-      <div className="scroll-sentinel" ref={mobileAdvanceRef} aria-hidden="true" />
     </section>
   )
 }
