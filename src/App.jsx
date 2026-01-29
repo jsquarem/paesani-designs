@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import './App.css'
 
@@ -34,6 +34,7 @@ function App() {
   const [theme, setTheme] = useState('noir')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [contactSubmitted, setContactSubmitted] = useState(false)
+  const [isQrOpen, setIsQrOpen] = useState(false)
   const contactCopy = getContactCopy(location.pathname)
 
   const handleNavClick = () => {
@@ -44,6 +45,15 @@ function App() {
     e.preventDefault()
     setContactSubmitted(true)
   }
+
+  useEffect(() => {
+    if (!isQrOpen) return
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setIsQrOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [isQrOpen])
 
   return (
     <div className="app" data-theme={theme}>
@@ -100,77 +110,132 @@ function App() {
       </main>
 
       <footer className="footer" id="contact">
-        <div>
-          <h3>{contactCopy.heading}</h3>
-          <p>{contactCopy.copy}</p>
-        </div>
-        {contactSubmitted ? (
-          <div className="contact-form__success" aria-live="polite">
-            <p className="contact-form__success-title">Message sent!</p>
-            <p className="contact-form__success-note">
-              Testing only — no email was actually sent.
-            </p>
+        <div className="footer__container">
+          <div className="footer__copy">
+            <h3>{contactCopy.heading}</h3>
+            <p>{contactCopy.copy}</p>
           </div>
-        ) : (
-          <form
-            className="contact-form"
-            onSubmit={handleContactSubmit}
-            noValidate
-          >
-            <div className="contact-form__row">
-              <label className="contact-form__label" htmlFor="contact-name">
-                Name
-              </label>
-              <input
-                id="contact-name"
-                className="contact-form__input"
-                type="text"
-                name="name"
-                autoComplete="name"
-                required
+          <div className="footer__qr">
+            <button
+              type="button"
+              className="footer__qr-trigger"
+              onClick={() => setIsQrOpen(true)}
+              aria-label="Show QR code full screen"
+            >
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fwww.paesanidesigns.com%2F"
+                alt="QR code for paesanidesigns.com"
+                width={160}
+                height={160}
+                className="footer__qr-image"
               />
-            </div>
-            <div className="contact-form__row">
-              <label className="contact-form__label" htmlFor="contact-email">
-                Email
-              </label>
-              <input
-                id="contact-email"
-                className="contact-form__input"
-                type="email"
-                name="email"
-                autoComplete="email"
-                required
-              />
-            </div>
-            <div className="contact-form__row">
-              <label className="contact-form__label" htmlFor="contact-message">
-                Message
-              </label>
-              <textarea
-                id="contact-message"
-                className="contact-form__input contact-form__textarea"
-                name="message"
-                rows={4}
-                required
-              />
-            </div>
-            <div className="footer__actions">
-              <button type="submit" className="btn btn--primary">
-                Send message
-              </button>
-              <a
-                className="btn btn--ghost"
-                href="https://www.etsy.com/"
-                target="_blank"
-                rel="noreferrer"
+            </button>
+          </div>
+          <div className="footer__form-area">
+            {contactSubmitted ? (
+              <div className="contact-form__success" aria-live="polite">
+                <p className="contact-form__success-title">Message sent!</p>
+                <p className="contact-form__success-note">
+                  Testing only — no email was actually sent.
+                </p>
+              </div>
+            ) : (
+              <form
+                className="contact-form"
+                onSubmit={handleContactSubmit}
+                noValidate
               >
-                Shop Etsy
-              </a>
-            </div>
-          </form>
-        )}
+                <div className="contact-form__row">
+                  <label className="contact-form__label" htmlFor="contact-name">
+                    Name
+                  </label>
+                  <input
+                    id="contact-name"
+                    className="contact-form__input"
+                    type="text"
+                    name="name"
+                    autoComplete="name"
+                    required
+                  />
+                </div>
+                <div className="contact-form__row">
+                  <label className="contact-form__label" htmlFor="contact-email">
+                    Email
+                  </label>
+                  <input
+                    id="contact-email"
+                    className="contact-form__input"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    required
+                  />
+                </div>
+                <div className="contact-form__row">
+                  <label className="contact-form__label" htmlFor="contact-message">
+                    Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    className="contact-form__input contact-form__textarea"
+                    name="message"
+                    rows={4}
+                    required
+                  />
+                </div>
+                <div className="footer__actions">
+                  <button type="submit" className="btn btn--primary">
+                    Send message
+                  </button>
+                  <a
+                    className="btn btn--ghost"
+                    href="https://www.etsy.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Shop Etsy
+                  </a>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
       </footer>
+
+      {isQrOpen && (
+        <div
+          className="qr-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="QR code full screen"
+        >
+          <div className="qr-overlay__backdrop" onClick={() => setIsQrOpen(false)} aria-hidden="true" />
+          <button
+            type="button"
+            className="qr-overlay__close qr-overlay__close--top"
+            onClick={() => setIsQrOpen(false)}
+            aria-label="Close"
+          >
+            Close
+          </button>
+          <div className="qr-overlay__content">
+            <img
+              src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Fwww.paesanidesigns.com%2F"
+              alt="QR code for paesanidesigns.com"
+              width={320}
+              height={320}
+              className="qr-overlay__image"
+            />
+            <button
+              type="button"
+              className="qr-overlay__close qr-overlay__close--bottom"
+              onClick={() => setIsQrOpen(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

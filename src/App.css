@@ -583,15 +583,118 @@
   border-radius: 24px;
   background: var(--panel-bg);
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer__container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.footer__copy h3 {
+  margin: 0 0 0.35rem;
+}
+
+.footer__copy p {
+  margin: 0;
+}
+
+.footer__qr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer__qr-trigger {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  border-radius: 12px;
+}
+
+.footer__qr-trigger:focus-visible {
+  outline: 2px solid var(--btn-primary);
+  outline-offset: 4px;
+}
+
+.footer__qr-image {
+  display: block;
+  border-radius: 12px;
+  background: #fff;
+  padding: 8px;
+}
+
+/* QR full-screen overlay */
+.qr-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.qr-overlay__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+}
+
+.qr-overlay__close {
+  position: relative;
+  z-index: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.qr-overlay__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.qr-overlay__close--top {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+}
+
+.qr-overlay__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.qr-overlay__image {
+  display: block;
+  border-radius: 16px;
+  background: #fff;
+  padding: 16px;
+}
+
+.qr-overlay__close--bottom {
+  width: auto;
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .contact-form__row {
@@ -607,6 +710,8 @@
 }
 
 .contact-form__input {
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.65rem 1rem;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -740,10 +845,26 @@
     min-height: 360px;
   }
 
-  .footer {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  .footer__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .footer__copy {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .footer__qr {
+    justify-content: center;
+  }
+
+  .footer__form-area {
+    min-width: 0;
+    width: 100%;
+    margin-left: auto;
   }
 
   .hero__backdrop {
