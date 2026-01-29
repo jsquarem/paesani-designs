@@ -1,209 +1,65 @@
 import { useState } from 'react'
-import artworks from './data/artworks.json'
+import { NavLink, Outlet } from 'react-router-dom'
 import './App.css'
 
-const currentCollection = artworks.filter((art) => art.collection === 'current')
-const portraitCollection = artworks.filter(
-  (art) => art.collection === 'portraits',
-)
-const heroArtworks = currentCollection.slice(0, 3)
+const navClassName = ({ isActive }) => (isActive ? 'is-active' : '')
 
 function App() {
   const [theme, setTheme] = useState('noir')
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const handleNavClick = () => {
+    setIsMenuOpen(false)
+  }
 
   return (
     <div className="app" data-theme={theme}>
-      <header className="hero">
-        <div className="hero__content">
-          <div className="top-bar">
-            <div className="theme-toggle">
-              <button
-                className={`toggle-btn ${theme === 'noir' ? 'is-active' : ''}`}
-                type="button"
-                onClick={() => setTheme('noir')}
-              >
-                Noir
-              </button>
-              <button
-                className={`toggle-btn ${theme === 'twilight' ? 'is-active' : ''}`}
-                type="button"
-                onClick={() => setTheme('twilight')}
-              >
-                Twilight
-              </button>
-              <button
-                className={`toggle-btn ${theme === 'light' ? 'is-active' : ''}`}
-                type="button"
-                onClick={() => setTheme('light')}
-              >
-                Light
-              </button>
-            </div>
+      <header className="site-header">
+        <NavLink className="logo" to="/" onClick={handleNavClick}>
+          <span className="logo__mark" aria-hidden="true" />
+          <div>
+            <p className="logo__name">Paesani Studio</p>
+            <p className="logo__tagline">Surreal art + cultural portraits</p>
           </div>
-          <p className="eyebrow">Paesani Studio</p>
-          <h1>Surreal architecture and portrait studies by Paesani.</h1>
-          <p className="hero__copy">
-            Discover the current treehouse and mushroom-house series alongside
-            the Brazilian portrait collection. Originals and select releases
-            are available with pricing on request.
-          </p>
-          <div className="hero__actions">
-            <a className="btn btn--primary" href="#current-collection">
-              View Current Collection
-            </a>
-            <a className="btn btn--ghost" href="#portrait-collection">
-              View Portraits
-            </a>
-          </div>
-          <div className="hero__details">
-            <div>
-              <p className="eyebrow">Available</p>
-              <p>Originals + limited releases</p>
-            </div>
-            <div>
-              <p className="eyebrow">Pricing</p>
-              <p>Inquire for current availability</p>
-            </div>
-          </div>
-        </div>
-        <div className="hero__art">
-          <div className="hero__stack">
-            {heroArtworks.map((art, index) => (
-              <div className={`hero__tile hero__tile--${index + 1}`} key={art.id}>
-                <img src={art.imageUrl} alt={art.name} loading="lazy" />
-              </div>
-            ))}
-          </div>
-          <div className="glow-card">
-            <p className="glow-card__label">Current spotlight</p>
-            <h3>{heroArtworks[0]?.name}</h3>
-            <p>{heroArtworks[0]?.description}</p>
-            <span className="glow-card__price">
-              {heroArtworks[0]?.price}
-            </span>
-          </div>
-        </div>
+        </NavLink>
+        <button
+          className="menu-toggle"
+          type="button"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          aria-expanded={isMenuOpen}
+          aria-controls="site-menu"
+        >
+          Menu
+        </button>
+        <nav
+          className={`site-nav ${isMenuOpen ? 'is-open' : ''}`}
+          id="site-menu"
+          aria-label="Main"
+        >
+          <NavLink to="/" end className={navClassName} onClick={handleNavClick}>
+            Collections
+          </NavLink>
+          <NavLink to="/about" className={navClassName} onClick={handleNavClick}>
+            About
+          </NavLink>
+          <NavLink
+            to="/services"
+            className={navClassName}
+            onClick={handleNavClick}
+          >
+            Services
+          </NavLink>
+          <a href="#contact" onClick={handleNavClick}>
+            Contact
+          </a>
+        </nav>
       </header>
 
-      <section className="section" id="current-collection">
-        <div className="section__head">
-          <div>
-            <p className="eyebrow">Current collection</p>
-            <h2>Tree houses &amp; mushroom homes.</h2>
-            <p className="section__copy">
-              Midnight scenes, glowing accents, and surreal architecture in the
-              forest canopy.
-            </p>
-          </div>
-          <a
-            className="btn btn--ghost"
-            href="https://www.etsy.com/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Shop current work
-          </a>
-        </div>
+      <main className="page">
+        <Outlet context={{ theme, setTheme }} />
+      </main>
 
-        <div className="gallery-grid">
-          {currentCollection.map((art) => (
-            <article className="art-card" key={art.id}>
-              <div className="art-card__media">
-                <img src={art.imageUrl} alt={art.name} loading="lazy" />
-                <span className="art-card__price">{art.price}</span>
-              </div>
-              <div className="art-card__body">
-                <div className="art-card__title">
-                  <h3>{art.name}</h3>
-                  <span className="pill">{art.tags[0]}</span>
-                </div>
-                <p>{art.description}</p>
-                <div className="art-card__tags">
-                  {art.tags.map((tag) => (
-                    <span className="chip" key={`${art.id}-${tag}`}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="art-card__actions">
-                  <a
-                    className="btn btn--primary"
-                    href={art.etsyUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Shop on Etsy
-                  </a>
-                  <a className="btn btn--ghost" href="mailto:hello@paesani.studio">
-                    Ask about pricing
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section" id="portrait-collection">
-        <div className="section__head">
-          <div>
-            <p className="eyebrow">Previous collection</p>
-            <h2>Brazilian portrait series.</h2>
-            <p className="section__copy">
-              Abstract portraits with elongated silhouettes, rhythmic color, and
-              expressive movement.
-            </p>
-          </div>
-          <a
-            className="btn btn--ghost"
-            href="https://www.etsy.com/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Shop portrait series
-          </a>
-        </div>
-
-        <div className="gallery-grid">
-          {portraitCollection.map((art) => (
-            <article className="art-card" key={art.id}>
-              <div className="art-card__media">
-                <img src={art.imageUrl} alt={art.name} loading="lazy" />
-                <span className="art-card__price">{art.price}</span>
-              </div>
-              <div className="art-card__body">
-                <div className="art-card__title">
-                  <h3>{art.name}</h3>
-                  <span className="pill">{art.tags[0]}</span>
-                </div>
-                <p>{art.description}</p>
-                <div className="art-card__tags">
-                  {art.tags.map((tag) => (
-                    <span className="chip" key={`${art.id}-${tag}`}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="art-card__actions">
-                  <a
-                    className="btn btn--primary"
-                    href={art.etsyUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Shop on Etsy
-                  </a>
-                  <a className="btn btn--ghost" href="mailto:hello@paesani.studio">
-                    Ask about pricing
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <footer className="footer">
+      <footer className="footer" id="contact">
         <div>
           <h3>Let’s make your walls glow.</h3>
           <p>
